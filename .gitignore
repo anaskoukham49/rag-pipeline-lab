@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+*.pyc
+*.pyo
+gensim-data/
+*.log
+.vscode/
+.idea/

@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+python-multipart
+pydantic
+sentence-transformers
+torch
+scikit-learn
+numpy
+langchain-text-splitters
+nltk
+faiss-cpu
+rank_bm25
+gensim
+transformers

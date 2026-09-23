@@ -1,0 +1,62 @@
+:root{
+  --blue:#1e3a5f; --teal:#0f766e; --green:#166534; --amber:#92400e;
+  --bg:#f1f5f9; --card:#fff; --muted:#64748b; --border:#e2e8f0;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,Segoe UI,system-ui,Arial,sans-serif;background:var(--bg);color:#0f172a}
+header{background:linear-gradient(135deg,#0f172a,#1e40af);color:#fff;padding:18px 20px}
+.header-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+header h1{margin:0;font-size:1.35rem}
+.badge{background:rgba(255,255,255,.15);padding:2px 8px;border-radius:999px;font-size:.85rem;font-weight:400}
+.subtitle{margin:6px 0 0;opacity:.85;font-size:.92rem}
+.api-status{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);padding:8px 10px;border-radius:10px}
+.dot{width:10px;height:10px;border-radius:50%;background:#94a3b8}
+.dot.online{background:#22c55e;box-shadow:0 0 8px #22c55e}
+.dot.offline{background:#ef4444}
+#apiBase{width:200px;padding:6px 8px;border-radius:6px;border:1px solid #334155;background:#0f172a;color:#e2e8f0}
+.button-bar{max-width:1200px;margin:14px auto;padding:0 16px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media(max-width:700px){.button-bar{grid-template-columns:1fr 1fr}}
+.btn{padding:11px 14px;border:none;border-radius:10px;font-weight:700;cursor:pointer;transition:transform .1s,opacity .15s}
+.btn:active{transform:scale(.98)}
+.btn.primary{background:#2563eb;color:#fff}
+.btn.teal{background:#0d9488;color:#fff}
+.btn.green{background:#16a34a;color:#fff}
+.btn.amber{background:#d97706;color:#fff}
+.btn.dark{background:#0f172a;color:#fff}
+.btn.small{padding:6px 10px;font-size:.85rem}
+.controls{max-width:1200px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px;margin:12px auto;max-width:1200px;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:850px){.grid2{grid-template-columns:1fr}}
+label{font-weight:600;font-size:.9rem;display:block;margin-top:8px}
+textarea,input,select{width:100%;padding:8px 10px;border:1px solid var(--border);border-radius:8px;font:inherit;margin-top:4px}
+.row{display:flex;gap:10px;align-items:end;margin-top:8px}
+.row.wrap{flex-wrap:wrap}
+.hint{font-size:.82rem;color:var(--muted)}
+.workflow .flow{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-top:8px}
+.flow-step{flex:1;min-width:130px;text-align:center;padding:12px;border-radius:10px;color:#fff}
+.flow-step.chunk{background:#1e40af}
+.flow-step.embed{background:#0f766e}
+.flow-step.retr{background:#c2410c}
+.flow-step.gen{background:#1e3a5f}
+.flow-step span{display:block;font-size:.8rem;opacity:.9;margin-top:4px}
+.arrow{font-size:1.4rem;color:var(--muted)}
+.results{max-width:1200px;margin:0 auto;padding:0 0 20px}
+.method-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;margin-top:10px}
+.method-card{border:1px solid var(--border);border-radius:10px;padding:10px;background:#f8fafc}
+.method-card h4{margin:0 0 6px;font-size:.95rem}
+.chunk{font-size:.84rem;background:#fff;border:1px solid #e2e8f0;border-radius:6px;padding:6px 8px;margin:4px 0;word-break:break-word}
+.table-wrap{overflow:auto;margin-top:10px}
+table{width:100%;border-collapse:collapse;font-size:.9rem}
+th,td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:left}
+th{background:#f1f5f9;font-weight:700}
+.best{margin-top:10px;padding:10px;border-radius:8px;background:#ecfdf5;border:1px solid #a7f3d0;color:#065f46;font-weight:700}
+.muted{color:var(--muted);font-size:.88rem}
+.hidden{display:none}
+.answer{background:#0f172a;color:#e2e8f0;padding:12px;border-radius:8px;white-space:pre-wrap;word-break:break-word}
+.context{background:#f8fafc;padding:10px;border-radius:8px;white-space:pre-wrap}
+.answer-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:850px){.answer-grid{grid-template-columns:1fr}}
+.chunk-list li{margin:6px 0;padding:6px 8px;background:#f8fafc;border-radius:6px;border:1px solid #e2e8f0}
+footer{text-align:center;color:var(--muted);padding:18px;font-size:.85rem}
+#rawJsonPre{max-height:320px;overflow:auto;background:#0f172a;color:#e2e8f0;padding:10px;border-radius:8px;font-size:.82rem}

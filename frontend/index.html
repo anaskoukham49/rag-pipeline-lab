@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RAG Pipeline</title>
+<link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<header>
+  <div class="header-inner">
+    <div>
+      <h1>RAG <span class="badge"><sup></sup></span></h1>
+      <p class="subtitle">Anas Koukham — Interface RAG : Chunking • Embedding • Retrieval • Génération</p>
+    </div>
+  </div>
+</header>
+
+<!-- 4 functional buttons (spec I) -->
+<nav class="button-bar">
+  <button id="btnChunking" class="btn primary" onclick="runChunking()">
+    <span class="icon">✂️</span> 1 · Chunking
+  </button>
+  <button id="btnChunkMetrics" class="btn teal" onclick="runChunkMetrics()">
+    <span class="icon">📊</span> 2 · Métriques Chunking
+  </button>
+  <button id="btnEmbedding" class="btn green" onclick="runEmbedding()">
+    <span class="icon">🧬</span> 3 · Embedding
+  </button>
+  <button id="btnEmbedMetrics" class="btn amber" onclick="runEmbedMetrics()">
+    <span class="icon">📈</span> 4 · Métriques Embedding & Retrieval
+  </button>
+</nav>
+
+<!-- Query / corpus controls -->
+<section class="controls card">
+  <div class="grid2">
+    <div>
+      <label for="corpus">Corpus (dataset TP1/TP2 — modifiable)</label>
+      <textarea id="corpus" rows="9">Artificial Intelligence is transforming civil engineering.
+Machine learning can predict structural damage after earthquakes.
+Deep learning models detect cracks in bridges and roads.
+Structural health monitoring uses IoT sensors to track building integrity.
+RAG systems combine retrieval and generation to answer domain-specific questions.
+Chunking strategy has a direct impact on retrieval quality in RAG pipelines.
+Embeddings represent text as dense vectors capturing semantic meaning.
+Vector databases enable fast similarity search over large document collections.</textarea>
+      <div class="row">
+        <label>Chunk size <input id="chunkSize" type="number" value="100" min="20" max="500" step="10"></label>
+        <label>Overlap <input id="chunkOverlap" type="number" value="20" min="0" max="100" step="5"></label>
+      </div>
+    </div>
+    <div>
+      <label for="query">Requête (Query)</label>
+      <textarea id="query" rows="2">How is AI used in civil engineering?</textarea>
+      <label>Nombre de résultats k <input id="k" type="number" value="3" min="1" max="10"></label>
+      <label>Méthode retrieval
+        <select id="retrievalMethod">
+          <option value="similarite_brute">Similarité brute (cosine)</option>
+          <option value="faiss">FAISS (ANN)</option>
+          <option value="bm25">BM25</option>
+          <option value="dpr">DPR (multi-qa)</option>
+          <option value="hybride">Hybride (dense+BM25)</option>
+          <option value="reranking">Re-ranking (cross-encoder)</option>
+        </select>
+      </label>
+      <div class="row wrap">
+        <button class="btn primary" onclick="runVectorial()">Vectorial RAG (GET /vectorial)</button>
+        <button class="btn dark" onclick="runQuery()">Query RAG (POST /query)</button>
+      </div>
+      <p class="hint">Frontend (HTML) → appelle FastAPI via REST JSON. Doc automatique : <a id="docsLink" href="http://127.0.0.1:8000/docs" target="_blank">/docs</a></p>
+    </div>
+  </div>
+</section>
+
+<!-- RAG Workflow overview -->
+<section class="workflow card">
+  <h2>RAG Workflow</h2>
+  <div class="flow">
+    <div class="flow-step chunk"><strong>Chunking</strong><span>7 méthodes</span></div>
+    <div class="arrow">→</div>
+    <div class="flow-step embed"><strong>Embedding</strong><span>7 méthodes</span></div>
+    <div class="arrow">→</div>
+    <div class="flow-step retr"><strong>Retrieval</strong><span>6 méthodes</span></div>
+    <div class="arrow">→</div>
+    <div class="flow-step gen"><strong>Generated Response</strong><span>basée sur les documents</span></div>
+  </div>
+</section>
+
+<!-- Results area -->
+<main class="results">
+  <!-- Chunking results -->
+  <section id="secChunking" class="card hidden">
+    <h3>✂️ Résultats Chunking — 7 méthodes</h3>
+    <div id="chunkingCards" class="method-grid"></div>
+  </section>
+
+  <section id="secChunkMetrics" class="card hidden">
+    <h3>📊 Métriques des Méthodes de Chunking</h3>
+    <div class="table-wrap">
+      <table id="chunkMetricsTable">
+        <thead><tr><th>Méthode</th><th>Nb chunks</th><th>Long. moyenne</th><th>Écart-type</th><th>Cohérence (intra-sim)</th><th>Exemple</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p id="bestChunking" class="best"></p>
+    <canvas id="chunkChart" height="120"></canvas>
+  </section>
+
+  <!-- Embedding results -->
+  <section id="secEmbedding" class="card hidden">
+    <h3>🧬 Embedding — 7 méthodes (sur best_chunks)</h3>
+    <p class="muted">Meilleure méthode de chunking détectée → utilisée comme corpus pour les embeddings.</p>
+    <div id="embeddingCards" class="method-grid"></div>
+    <div class="table-wrap">
+      <table id="embedMetricsTable">
+        <thead><tr><th>Méthode</th><th>Dim</th><th>Nb vecteurs</th><th>Intra-similarity</th><th>Status</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <p id="bestEmbedding" class="best"></p>
+    <canvas id="embedChart" height="120"></canvas>
+  </section>
+
+  <!-- Retrieval + comparative dashboard -->
+  <section id="secRetrieval" class="card hidden">
+    <h3>🔍 Retrieval — 6 méthodes & Dashboard comparatif</h3>
+    <div id="retrievalCards" class="method-grid"></div>
+    <div class="table-wrap">
+      <table id="retrievalTable">
+        <thead><tr><th>Méthode</th><th>Precision@k</th><th>Recall@k</th><th>MRR</th><th>Top chunk</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <canvas id="retrievalChart" height="140"></canvas>
+  </section>
+
+  <!-- Vectorial / Query answer -->
+  <section id="secAnswer" class="card hidden">
+    <h3>💬 Generated Response</h3>
+    <div class="answer-grid">
+      <div>
+        <h4>Réponse</h4>
+        <pre id="generatedResponse" class="answer"></pre>
+        <p id="answerNote" class="muted"></p>
+      </div>
+      <div>
+        <h4>Chunks récupérés (contexte)</h4>
+        <ol id="retrievedChunks" class="chunk-list"></ol>
+        <h4>Contexte brut</h4>
+        <pre id="contextRaw" class="context"></pre>
+      </div>
+    </div>
+  </section>
+
+  <section id="rawJson" class="card hidden">
+    <h3>Raw JSON (dernière réponse API)</h3>
+    <pre id="rawJsonPre"></pre>
+  </section>
+</main>
+
+<footer>
+  <p>RAG — Backend <code>FastAPI</code> · Frontend <code>HTML/JS</code> · Pipeline : chunking → embedding → retrieval → génération. Flux JSON via API REST.</p>
+</footer>
+
+<script src="/static/app.js?v=8"></script>
+</body>
+</html>
