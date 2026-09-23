@@ -3,6 +3,7 @@
 School project (4th year IIR, TP RAG with Dr. EL MKHALET MOUNA). I started from the TP notebooks and turned the whole thing into a small website so I could test every method on the same corpus and see which one actually works best.
 
 Basically you paste a text + a question, and the app runs the full RAG pipeline and shows you the results side by side with charts. No black box, you see every step.
+<img width="1920" height="7298" alt="screencapture-127-0-0-1-8000-app-2026-09-23-01_53_11" src="https://github.com/user-attachments/assets/e062b388-4610-4d23-a166-15dd65952e05" />
 
 ## How it works
 
