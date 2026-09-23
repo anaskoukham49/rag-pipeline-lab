@@ -66,8 +66,8 @@ Vector databases enable fast similarity search over large document collections.<
         </select>
       </label>
       <div class="row wrap">
-        <button class="btn primary" onclick="runVectorial()">Vectorial RAG (GET /vectorial)</button>
-        <button class="btn dark" onclick="runQuery()">Query RAG (POST /query)</button>
+        <button id="btnVectorial" class="btn primary" onclick="runVectorial()">Vectorial RAG (GET /vectorial)</button>
+        <button id="btnQuery" class="btn dark" onclick="runQuery()">Query RAG (POST /query)</button>
       </div>
       <p class="hint">Frontend (HTML) → appelle FastAPI via REST JSON. Doc automatique : <a id="docsLink" href="http://127.0.0.1:8000/docs" target="_blank">/docs</a></p>
     </div>
@@ -164,6 +164,6 @@ Vector databases enable fast similarity search over large document collections.<
   <p>RAG — Backend <code>FastAPI</code> · Frontend <code>HTML/JS</code> · Pipeline : chunking → embedding → retrieval → génération. Flux JSON via API REST.</p>
 </footer>
 
-<script src="/static/app.js?v=8"></script>
+<script src="/static/app.js?v=9"></script>
 </body>
 </html>

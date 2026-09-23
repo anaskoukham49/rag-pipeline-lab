@@ -325,6 +325,10 @@ async function runEmbedMetrics(){
 }
 
 async function runVectorial(){
+  if(document.getElementById("btnVectorial")?.disabled) return;
+  setBtnLoading("btnVectorial", true);
+  $("#secAnswer").classList.remove("hidden");
+  $("#generatedResponse").textContent = "Chargement… (1er appel = chargement modèle, 10-20s)";
   try{
     const q = encodeURIComponent($("#query").value);
     const k = $("#k").value;
@@ -335,10 +339,21 @@ async function runVectorial(){
     console.error("[runVectorial]", e);
     showRaw({error:String(e)});
     alert("Erreur Vectorial: "+e.message);
+  }finally{
+    setBtnLoading("btnVectorial", false);
+    try{ $("#secAnswer").scrollIntoView({behavior:"smooth", block:"start"}); }catch{}
   }
 }
 
 async function runQuery(){
+  if(document.getElementById("btnQuery")?.disabled) return;
+  const method = $("#retrievalMethod").value;
+  if(method === "dpr" || method === "reranking"){
+    if(!confirm(method + " télécharge 80-300MB au 1er appel et peut figer 1-2 min. Continuer ?")) return;
+  }
+  setBtnLoading("btnQuery", true);
+  $("#secAnswer").classList.remove("hidden");
+  $("#generatedResponse").textContent = "Chargement… (1er appel = chargement modèle, 10-20s)";
   try{
     const body = { query: $("#query").value, text: $("#corpus").value, k: parseInt($("#k").value||3), retrieval_method: $("#retrievalMethod").value };
     const data = await fetchJson(apiBase()+"/query", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)});
@@ -348,6 +363,9 @@ async function runQuery(){
     console.error("[runQuery]", e);
     showRaw({error:String(e)});
     alert("Erreur Query: "+e.message);
+  }finally{
+    setBtnLoading("btnQuery", false);
+    try{ $("#secAnswer").scrollIntoView({behavior:"smooth", block:"start"}); }catch{}
   }
 }
 
