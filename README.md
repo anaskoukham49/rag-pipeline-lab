@@ -3,7 +3,26 @@
 School project (4th year IIR, TP RAG with Dr. EL MKHALET MOUNA). I started from the TP notebooks and turned the whole thing into a small website so I could test every method on the same corpus and see which one actually works best.
 
 Basically you paste a text + a question, and the app runs the full RAG pipeline and shows you the results side by side with charts. No black box, you see every step.
-<img width="1920" height="7298" alt="screencapture-127-0-0-1-8000-app-2026-09-23-01_53_11" src="https://github.com/user-attachments/assets/e062b388-4610-4d23-a166-15dd65952e05" />
+<table>
+  <tr>
+    <td><img width="1920" height="879" alt="1" src="https://github.com/user-attachments/assets/8e8cc90f-6234-4c02-bcfd-a9f4dd672d55" />
+</td>
+    <td><img width="1920" height="1089" alt="2" src="https://github.com/user-attachments/assets/764b8134-3c20-40bc-83fb-acd908fea612" />
+</td>
+  </tr>
+  <tr>
+    <td><img width="1920" height="1133" alt="3" src="https://github.com/user-attachments/assets/aef9f365-d834-47fa-90ca-a868b9091cf8" />
+</td>
+    <td><img width="1920" height="2123" alt="4" src="https://github.com/user-attachments/assets/7d47b86a-fb9a-4308-86c9-09b6fe1037dd" />
+</td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <img width="1920" height="1373" alt="5" src="https://github.com/user-attachments/assets/050f79e2-7962-401d-83b4-5e2c85ae5817" />
+
+    </td>
+  </tr>
+</table>
 
 ## How it works
 
